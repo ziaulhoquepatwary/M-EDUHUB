@@ -21,17 +21,16 @@ function Navbar() {
 
     const navLinks = [
         { name: "Home", href: "/" },
-        { name: "Package", href: "/package" },
-        { name: "Services", href: "/services" },
-        { name: "Technology", href: "/technology" },
+        { name: "Courses", href: "/courses" },
+        { name: "Blogs", href: "/blogs" },
         { name: "About", href: "/about" },
-        { name: "Contact", href: "/contact" },
+        { name: "Support", href: "/contact" },
     ];
 
     const isActive = (path) => pathname === path;
 
     return (
-        <nav className="w-full fixed top-0 left-0 z-50 border-b transition-colors duration-300 bg-white/80 dark:bg-black/90 backdrop-blur-md border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
+        <nav className="w-full fixed top-0 left-0 z-50 border-b transition-colors duration-300 bg-white/80 dark:bg-black backdrop-blur-md border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-20">
 
