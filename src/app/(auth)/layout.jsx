@@ -8,8 +8,8 @@ export const metadata = {
 function AuthLayout({ children }) {
     return (
         <div className="auth-container min-h-screen bg-white dark:bg-black transition-colors duration-300">
-            {/* Theme Toggle - Top Right */}
-            <div className="fixed top-4 right-6 z-50">
+            {/* Theme Toggle */}
+            <div className="fixed top-2 right-6 z-50">
                 <ThemeToggle />
             </div>
             {children}
