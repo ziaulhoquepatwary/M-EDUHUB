@@ -1,8 +1,11 @@
+import Banner from '@/component/Banner'
 import React from 'react'
 
 function Home() {
     return (
-        <div>Home</div>
+        <div className='mt-20'>
+            <Banner />
+        </div>
     )
 }
 
