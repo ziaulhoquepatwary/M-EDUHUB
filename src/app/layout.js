@@ -1,6 +1,6 @@
 import { Roboto_Slab, Patua_One } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/context/ThemeContext";
+import { ThemeProvider } from "@/context/ThemeProvider";
 
 const robotoSlab = Roboto_Slab({
     subsets: ["latin"],
@@ -17,7 +17,7 @@ const patuaOne = Patua_One({
 });
 
 export const metadata = {
-    title: "M EDUHUB",
+    title: "EDUHUB",
     description: "",
 };
 
