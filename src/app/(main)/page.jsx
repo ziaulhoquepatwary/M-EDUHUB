@@ -1,4 +1,5 @@
 import Banner from '@/component/Banner'
+import ContactSection from '@/component/ContactSection'
 import CourseCategories from '@/component/CourseCategories'
 import TrendingCoursesBanner from '@/component/TrendingCoursesBanner'
 import React from 'react'
@@ -9,6 +10,7 @@ function Home() {
             <Banner />
             <CourseCategories />
             <TrendingCoursesBanner />
+            <ContactSection />
         </div>
     )
 }
