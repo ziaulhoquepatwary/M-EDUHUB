@@ -27,7 +27,7 @@ export default function RootLayout({ children }) {
             lang="en"
             className={`${robotoSlab.variable} ${patuaOne.variable} h-full antialiased`}
         >
-            <body className="min-h-full">
+            <body className="min-h-full dark:bg-black">
                 <ThemeProvider>
                     {children}
                 </ThemeProvider>
