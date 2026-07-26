@@ -3,7 +3,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Sparkles, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 const CourseCategories = () => {
     const scrollContainerRef = useRef(null);
@@ -14,77 +14,66 @@ const CourseCategories = () => {
             title: "Development",
             coursesCount: "120+ Courses",
             image: "/course/course-banner-1.png",
-            slug: "development"
         },
         {
             id: 2,
             title: "Technology",
             coursesCount: "85+ Courses",
             image: "/course/course-banner-2.png",
-            slug: "technology"
         },
         {
             id: 3,
             title: "Creativity & Design",
             coursesCount: "64+ Courses",
             image: "/course/course-banner-3.png",
-            slug: "creativity-design"
         },
         {
             id: 4,
             title: "Professional Development",
             coursesCount: "42+ Courses",
             image: "/course/course-banner-4.png",
-            slug: "professional-development"
         },
         {
             id: 5,
             title: "Sales & Marketing",
             coursesCount: "50+ Courses",
             image: "/course/course-banner-5.png",
-            slug: "sales-marketing"
         },
         {
             id: 6,
             title: "Freelance Marketplace",
             coursesCount: "38+ Courses",
             image: "/course/course-banner-6.png",
-            slug: "freelance-marketplace"
         },
         {
             id: 7,
             title: "Business",
             coursesCount: "95+ Courses",
             image: "/course/course-banner-7.png",
-            slug: "business"
         },
         {
             id: 8,
             title: "Personal Development",
             coursesCount: "30+ Courses",
             image: "/course/course-banner-8.png",
-            slug: "personal-development"
         },
         {
             id: 9,
             title: "Language Learning",
             coursesCount: "25+ Courses",
             image: "/course/course-banner-9.png",
-            slug: "language-learning"
         },
         {
             id: 10,
             title: "Teaching & Academic",
             coursesCount: "40+ Courses",
             image: "/course/course-banner-10.png",
-            slug: "teaching-academic"
         },
         {
             id: 11,
-            title: "Workshop & Live Class",
+            title: "Workshop & Live",
             coursesCount: "15+ Live Sessions",
             image: "/course/course-banner-11.png",
-            slug: "workshop-live"
         }
     ];
 
@@ -134,7 +123,7 @@ const CourseCategories = () => {
                     </div>
                 </div>
 
-                {/* Horizontal Scrollable Grid / Carousel Container */}
+                {/* Horizontal Scrollable Grid */}
                 <div
                     ref={scrollContainerRef}
                     className="flex gap-6 overflow-x-auto scrollbar-none scroll-smooth pb-4 pt-1 snap-x snap-mandatory"
@@ -143,7 +132,8 @@ const CourseCategories = () => {
                     {categories.map((cat) => (
                         <Link
                             key={cat.id}
-                            href={`/courses?category=${cat.slug}`}
+                            /* encodeURIComponent দিয়ে নাম ইউআরএল সেফ করে পাঠানো হচ্ছে */
+                            href={`/courses?category=${encodeURIComponent(cat.title)}`}
                             className="snap-start shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] group"
                         >
                             <div className="bg-slate-50/70 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-4 transition-all duration-300 hover:border-[#04cccc]/50 hover:shadow-lg hover:shadow-teal-500/5 hover:-translate-y-1 flex items-center gap-4 backdrop-blur-xl">

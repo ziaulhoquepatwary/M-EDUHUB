@@ -1,9 +1,11 @@
 "use client";
+import { createCourse } from '@/lib/action/course';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 
 export default function AddCourseForm() {
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({
         defaultValues: {
             title: '',
             category: 'Development',
@@ -25,9 +27,12 @@ export default function AddCourseForm() {
     const [targetAudience, setTargetAudience] = useState([]);
     const [requirements, setRequirements] = useState([]);
     const [tags, setTags] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     // Form Submit Handler
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
+        setLoading(true);
+
         const finalData = {
             ...data,
             price: Number(data.price),
@@ -37,9 +42,38 @@ export default function AddCourseForm() {
             tags
         };
 
-        console.log('--- Course Form Submitted Data ---');
-        console.log(finalData);
-        alert('Course added successfully! Check console for data.');
+        try {
+            const response = await createCourse(finalData);
+
+            if (response) {
+                // Success SweetAlert
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Course has been created successfully.',
+                    icon: 'success',
+                    confirmButtonColor: '#04cccc',
+                });
+
+                // Reset Form and Local States
+                reset();
+                setWhatYouWillLearn([]);
+                setTargetAudience([]);
+                setRequirements([]);
+                setTags([]);
+            }
+        } catch (error) {
+            console.error('Failed to create course:', error);
+
+            // Error SweetAlert
+            Swal.fire({
+                title: 'Error!',
+                text: error?.response?.data?.message || 'Failed to create course. Please try again.',
+                icon: 'error',
+                confirmButtonColor: '#04cccc',
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -209,9 +243,10 @@ export default function AddCourseForm() {
                 <div className="pt-4">
                     <button
                         type="submit"
-                        className="w-full py-3.5 bg-[#04cccc] text-white font-bold text-lg rounded-lg hover:bg-[#15a3a3] shadow-lg transition-colors duration-200"
+                        disabled={loading}
+                        className="w-full py-3.5 bg-[#04cccc] text-white font-bold text-lg rounded-lg hover:bg-[#15a3a3] shadow-lg transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
                     >
-                        Submit Course
+                        {loading ? 'Submitting...' : 'Submit Course'}
                     </button>
                 </div>
             </form>
@@ -225,7 +260,7 @@ function TagArrayInput({ label, placeholder, items, setItems }) {
 
     // Add Item Function
     const handleAddItem = (e) => {
-        e.preventDefault(); // ফর্ম সাবমিট হওয়া আটকানোর জন্য
+        e.preventDefault();
         const trimmed = inputValue.trim();
         if (trimmed && !items.includes(trimmed)) {
             setItems([...items, trimmed]);
