@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function TermsAndConditions() {
     return (
-        <main className="min-h-screen mt-10 bg-white text-slate-900 dark:bg-black dark:text-slate-100 transition-colors duration-300">
+        <main className="min-h-screen mt-5 bg-white text-slate-900 dark:bg-black dark:text-slate-100 transition-colors duration-300">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
 
                 {/* Header Section */}
@@ -18,11 +18,11 @@ export default function TermsAndConditions() {
                 </header>
 
                 {/* Content Section */}
-                <article className="space-y-10 text-slate-700 dark:text-slate-300 leading-relaxed">
+                <article className="space-y-10 text-slate-700 dark:text-slate-300 leading-relaxed text-justify">
 
                     {/* Section 1 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             1. Introduction and Acceptance of Terms
                         </h2>
                         <p>
@@ -35,13 +35,13 @@ export default function TermsAndConditions() {
 
                     {/* Section 2 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             2. User Account and Security
                         </h2>
                         <p>
                             To access courses and mentorship sessions, you must register for an account by providing accurate, complete, and current information. You are solely responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account.
                         </p>
-                        <ul className="list-disc pl-6 space-y-2">
+                        <ul className="list-disc pl-6 space-y-2 text-left">
                             <li>
                                 <strong>Single User License:</strong> Each enrolled account is strictly for individual use. Account sharing, credential distribution, or group access to a single account is strictly prohibited.
                             </li>
@@ -56,7 +56,7 @@ export default function TermsAndConditions() {
 
                     {/* Section 3 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             3. Lifetime Access Policy
                         </h2>
                         <p>
@@ -69,13 +69,13 @@ export default function TermsAndConditions() {
 
                     {/* Section 4 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             4. Mentorship and 1-on-1 Sessions
                         </h2>
                         <p>
                             EduHub provides dedicated mentorship support to assist students through their learning journey. Mentorship access is provided based on the following framework:
                         </p>
-                        <ul className="list-disc pl-6 space-y-2">
+                        <ul className="list-disc pl-6 space-y-2 text-left">
                             <li>
                                 <strong>Schedule:</strong> Enrolled students are entitled to 1-on-1 discussion sessions with assigned mentors 3 days per week according to the published schedule for their respective courses.
                             </li>
@@ -90,7 +90,7 @@ export default function TermsAndConditions() {
 
                     {/* Section 5 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             5. Payment, Non-Refundable Policy, and Claim Exceptions
                         </h2>
                         <p>
@@ -103,7 +103,7 @@ export default function TermsAndConditions() {
 
                     {/* Section 6 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             6. Intellectual Property Rights
                         </h2>
                         <p>
@@ -116,7 +116,7 @@ export default function TermsAndConditions() {
 
                     {/* Section 7 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             7. Limitation of Liability
                         </h2>
                         <p>
@@ -126,13 +126,13 @@ export default function TermsAndConditions() {
 
                     {/* Section 8 */}
                     <section className="space-y-4">
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900">
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 pb-2 border-b border-slate-100 dark:border-slate-900 text-left">
                             8. Contact Information
                         </h2>
                         <p>
                             If you have any questions or concerns regarding these Terms & Conditions, please reach out to our legal and support team:
                         </p>
-                        <div className="pt-2">
+                        <div className="pt-2 text-left">
                             <p><strong>Email:</strong> hello@mtraderslastllc.com</p>
                             <p><strong>Support Portal:</strong> EduHub Helpdesk Center</p>
                         </div>
