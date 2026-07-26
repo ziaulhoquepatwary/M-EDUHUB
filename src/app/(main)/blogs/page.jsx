@@ -58,7 +58,7 @@ export default function BlogsPage() {
     };
 
     return (
-        <div className="min-h-screen pt-24 bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 py-12 px-4 sm:px-6 lg:px-8 transition-colors">
+        <div className="min-h-screen pt-24 dark:bg-black text-slate-900 dark:text-slate-100 py-12 px-4 sm:px-6 lg:px-8 transition-colors">
             <div className="max-w-6xl mx-auto space-y-5">
 
                 {/* Header */}

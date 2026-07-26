@@ -109,7 +109,7 @@ function CoursesContent() {
     };
 
     return (
-        <div className="min-h-screen mt-15 bg-slate-50 dark:bg-slate-950 py-10 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen mt-15 bg-slate-50 dark:bg-black py-10 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
 
                 {/* Two-color Main Heading */}

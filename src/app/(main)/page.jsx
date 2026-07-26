@@ -1,6 +1,7 @@
 import Banner from '@/component/Banner'
 import ContactSection from '@/component/ContactSection'
 import CourseCategories from '@/component/CourseCategories'
+import FeaturedCourses from '@/component/FeaturedCourses'
 import TrendingCoursesBanner from '@/component/TrendingCoursesBanner'
 import React from 'react'
 
@@ -9,6 +10,7 @@ function Home() {
         <div className='mt-20'>
             <Banner />
             <CourseCategories />
+            <FeaturedCourses />
             <TrendingCoursesBanner />
             <ContactSection />
         </div>
