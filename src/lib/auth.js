@@ -18,6 +18,29 @@ export const auth = betterAuth({
         },
     },
 
+    session: {
+        fields: {
+            user: ["role", "phone", "address"]
+        }
+    },
+
+    user: {
+        additionalFields: {
+            role: {
+                type: "string",
+                defaultValue: "user",
+            },
+            phone: {
+                type: "string",
+                defaultValue: "",
+            },
+            address: {
+                type: "string",
+                defaultValue: "",
+            },
+        },
+    },
+
     database: mongodbAdapter(db, {
         client
     }),
