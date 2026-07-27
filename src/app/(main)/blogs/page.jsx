@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Search, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, ArrowRight, Loader2 } from 'lucide-react';
 import BlogCard from './BlogCard';
 import PaginationControls from './PaginationControls';
-import { blogsData } from '@/data/blogsData';
+import { fetchAllBlog } from '@/lib/action/blog';
 
 const CATEGORIES = [
     'All',
@@ -21,47 +21,86 @@ const CATEGORIES = [
     'Workshop & Live',
 ];
 
-const BLOGS_PER_PAGE = 9;
-
 export default function BlogsPage() {
+    const [blogs, setBlogs] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchInput, setSearchInput] = useState('');
+    const [activeSearch, setActiveSearch] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('All');
-    const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const limit = 12;
 
-    const filteredBlogs = useMemo(() => {
-        return blogsData.filter((blog) => {
-            const matchesCategory = selectedCategory === 'All' || blog.category === selectedCategory;
-            const query = searchQuery.toLowerCase();
-            const matchesSearch =
-                blog.title.toLowerCase().includes(query) ||
-                blog.excerpt.toLowerCase().includes(query) ||
-                blog.author.toLowerCase().includes(query);
+    useEffect(() => {
+        let isCurrent = true;
 
-            return matchesCategory && matchesSearch;
-        });
-    }, [selectedCategory, searchQuery]);
+        const loadData = async () => {
+            setLoading(true);
+            try {
+                const params = {
+                    page: currentPage,
+                    limit,
+                };
 
-    const totalPages = Math.ceil(filteredBlogs.length / BLOGS_PER_PAGE);
-    const paginatedBlogs = useMemo(() => {
-        const start = (currentPage - 1) * BLOGS_PER_PAGE;
-        return filteredBlogs.slice(start, start + BLOGS_PER_PAGE);
-    }, [filteredBlogs, currentPage]);
+                if (activeSearch.trim()) {
+                    params.search = activeSearch.trim();
+                }
+
+                if (selectedCategory !== 'All') {
+                    params.category = selectedCategory;
+                }
+
+                const response = await fetchAllBlog(params);
+
+                if (isCurrent) {
+                    if (response?.data?.success) {
+                        setBlogs(response.data.data || []);
+                        setTotalPages(response.data.meta?.totalPages || 1);
+                    } else if (response?.success) {
+                        setBlogs(response.data || []);
+                        setTotalPages(response.meta?.totalPages || 1);
+                    }
+                }
+            } catch (error) {
+                if (isCurrent) {
+                    setBlogs([]);
+                    setTotalPages(1);
+                }
+            } finally {
+                if (isCurrent) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        loadData();
+
+        return () => {
+            isCurrent = false;
+        };
+    }, [currentPage, activeSearch, selectedCategory]);
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        setCurrentPage(1);
+        setActiveSearch(searchInput);
+    };
 
     const handleCategorySelect = (category) => {
         setSelectedCategory(category);
         setCurrentPage(1);
     };
 
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
+    const handleResetFilters = () => {
+        setSearchInput('');
+        setActiveSearch('');
+        setSelectedCategory('All');
         setCurrentPage(1);
     };
 
     return (
         <div className="min-h-screen pt-24 dark:bg-black text-slate-900 dark:text-slate-100 py-12 px-4 sm:px-6 lg:px-8 transition-colors">
             <div className="max-w-6xl mx-auto space-y-5">
-
-                {/* Header */}
                 <div className="space-y-4">
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
                         <span className="bg-gradient-to-r from-[#04cccc] to-[#15a3a3] bg-clip-text text-transparent">
@@ -76,28 +115,34 @@ export default function BlogsPage() {
                     </p>
                 </div>
 
-                {/* Controls: Search & Category */}
                 <div className="space-y-4">
-                    <div className="relative max-w-md">
-                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                        <input
-                            type="text"
-                            placeholder="Search articles..."
-                            value={searchQuery}
-                            onChange={handleSearchChange}
-                            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#04cccc] transition-colors"
-                        />
-                    </div>
+                    <form onSubmit={handleSearchSubmit} className="flex gap-2 max-w-md">
+                        <div className="relative flex-1">
+                            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                            <input
+                                type="text"
+                                placeholder="Search articles..."
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                                className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-[#04cccc] transition-colors"
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="px-4 py-2.5 rounded-lg bg-[#04cccc] text-white text-sm font-medium hover:opacity-90 transition-opacity"
+                        >
+                            Search
+                        </button>
+                    </form>
 
-                    {/* Responsive Categories: Overflow on small/medium screens, Flex wrap on large screens */}
                     <div className="flex overflow-x-auto lg:flex-wrap gap-2 pb-2 lg:pb-0 scrollbar-none">
                         {CATEGORIES.map((category) => (
                             <button
                                 key={category}
                                 onClick={() => handleCategorySelect(category)}
                                 className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${selectedCategory === category
-                                    ? 'bg-[#04cccc] text-white shadow-sm'
-                                    : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-[#04cccc] dark:hover:border-[#04cccc]'
+                                        ? 'bg-[#04cccc] text-white shadow-sm'
+                                        : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-[#04cccc] dark:hover:border-[#04cccc]'
                                     }`}
                             >
                                 {category}
@@ -106,20 +151,25 @@ export default function BlogsPage() {
                     </div>
                 </div>
 
-                {/* Blog Grid */}
-                {paginatedBlogs.length > 0 ? (
+                {loading ? (
+                    <div className="flex justify-center items-center py-20">
+                        <Loader2 className="w-8 h-8 animate-spin text-[#04cccc]" />
+                    </div>
+                ) : blogs.length > 0 ? (
                     <>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {paginatedBlogs.map((blog) => (
-                                <BlogCard key={blog.id} blog={blog} />
+                            {blogs.map((blog) => (
+                                <BlogCard key={blog._id || blog.id} blog={blog} />
                             ))}
                         </div>
 
-                        <PaginationControls
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={setCurrentPage}
-                        />
+                        {totalPages > 1 && (
+                            <PaginationControls
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={(page) => setCurrentPage(page)}
+                            />
+                        )}
                     </>
                 ) : (
                     <div className="text-center py-16 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
@@ -127,10 +177,7 @@ export default function BlogsPage() {
                             No articles found matching your criteria.
                         </p>
                         <button
-                            onClick={() => {
-                                setSearchQuery('');
-                                setSelectedCategory('All');
-                            }}
+                            onClick={handleResetFilters}
                             className="px-4 py-2 rounded-lg bg-[#04cccc] text-white text-xs font-medium hover:opacity-90 transition-opacity"
                         >
                             Reset Filters
@@ -138,7 +185,6 @@ export default function BlogsPage() {
                     </div>
                 )}
 
-                {/* Newsletter Section (Centered layout) */}
                 <section className="p-8 sm:p-12 rounded-2xl bg-gradient-to-r from-cyan-500/10 via-teal-500/5 to-transparent border border-cyan-500/20 text-center flex flex-col items-center justify-center">
                     <div className="max-w-xl space-y-4">
                         <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
@@ -164,7 +210,6 @@ export default function BlogsPage() {
                         </form>
                     </div>
                 </section>
-
             </div>
         </div>
     );
