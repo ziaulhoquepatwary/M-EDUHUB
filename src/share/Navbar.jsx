@@ -15,8 +15,7 @@ function Navbar() {
     const { data: session, isPending } = authClient.useSession();
     const user = session?.user;
 
-    // adjust these based on your role logic
-    const showDashboard = !!user;
+    const showDashboard = user?.role === "admin";
     const dashboardHref = `/dashboard/${user?.role}`;
 
     const navLinks = [
