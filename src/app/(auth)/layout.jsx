@@ -1,8 +1,8 @@
 import ThemeToggle from "@/component/ThemeToggle";
 
 export const metadata = {
-    title: "Auth - EduHub",
-    description: "Join EduHub to access premium courses, interactive learning, and career-focused skill development.",
+    title: "Auth - Trade Chain",
+    description: "",
 };
 
 function AuthLayout({ children }) {

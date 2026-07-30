@@ -78,15 +78,16 @@ const Banner = () => {
             {/* Background Image with Adaptive Overlay */}
             <div className="absolute inset-0 pointer-events-none z-0">
                 <Image
-                    src="/bg-img.jpg"
+                    src="/bg-3.jpg"
                     alt="EduHub Background"
                     fill
                     priority
-                    className="object-cover opacity-40 dark:opacity-20 transition-all duration-300"
+                    className="object-cover opacity-60 dark:opacity-40 transition-all duration-300"
                     suppressHydrationWarning
                 />
-                {/* Light Mode Overlay / Dark Mode Black Mask */}
-                <div className="absolute inset-0 bg-white/50 dark:bg-black/10 transition-colors duration-300" />
+
+                {/* White Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-white/20 dark:from-black/70 dark:via-black/40 dark:to-transparent" />
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[420px] sm:h-[460px] md:h-[480px] relative flex items-center justify-center z-10">
@@ -195,8 +196,8 @@ const Banner = () => {
                                 setCurrentSlide(index);
                             }}
                             className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${index === currentSlide
-                                    ? "w-8 bg-[#04cccc]"
-                                    : "w-2.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600"
+                                ? "w-8 bg-[#04cccc]"
+                                : "w-2.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-600"
                                 }`}
                             aria-label={`Go to slide ${index + 1}`}
                         />

@@ -3,6 +3,7 @@ import ContactSection from '@/component/ContactSection'
 import CourseCategories from '@/component/CourseCategories'
 import FeaturedCourses from '@/component/FeaturedCourses'
 import HomeBlogsSection from '@/component/HomeBlogsSection'
+import Reviews from '@/component/Reviews'
 import TrendingCoursesBanner from '@/component/TrendingCoursesBanner'
 import React from 'react'
 
@@ -14,6 +15,7 @@ function Home() {
             <FeaturedCourses />
             <TrendingCoursesBanner />
             <HomeBlogsSection />
+            <Reviews />
             <ContactSection />
         </div>
     )

@@ -1,9 +1,9 @@
 import React from 'react'
 
-function page() {
+function DashboardOverview() {
     return (
-        <div>page</div>
+        <div>Dashboard Overview build in future & implement multy getway method</div>
     )
 }
 
-export default page
+export default DashboardOverview
