@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import {
     CheckCircle2,
@@ -15,6 +14,7 @@ import {
 } from 'lucide-react';
 import EnrollButton from './EnrollButton';
 import { fetchCourseDetails } from '@/lib/action/course';
+import BackButton from './BackButton';
 
 export default async function CourseDetailsPage({ params }) {
     const { id } = await params;
@@ -53,7 +53,7 @@ export default async function CourseDetailsPage({ params }) {
     }
 
     return (
-        <div className="min-h-screen mt-20 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+        <div className="min-h-screen mt-10 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
             {/* Header Banner Zone */}
             <div className="bg-slate-400 text-white border-b border-slate-800 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-[#04cccc]/10 rounded-full blur-3xl pointer-events-none"></div>
@@ -63,8 +63,9 @@ export default async function CourseDetailsPage({ params }) {
                     <div className="absolute top-0 right-0 w-96 h-96 bg-[#04cccc]/10 rounded-full blur-3xl pointer-events-none" />
 
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                        <BackButton />
                         {/* Breadcrumbs */}
-                        <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">
+                        <div className="flex items-center mt-5 gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400 mb-6 font-medium">
                             <Link
                                 href="/courses"
                                 className="text-[#04cccc] hover:underline transition-colors"
@@ -211,12 +212,10 @@ export default async function CourseDetailsPage({ params }) {
 
                             {/* Course Image Preview */}
                             <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-800 border border-slate-200 dark:border-slate-800">
-                                <Image
+                                <img
                                     src={course.image}
                                     alt={course.title}
-                                    fill
-                                    priority
-                                    className="object-cover"
+                                    className="w-full h-full object-cover"
                                 />
                             </div>
 
