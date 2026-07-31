@@ -129,7 +129,7 @@ const Banner = () => {
                             >
                                 {slides[currentSlide].title.split(" ").map((word, idx) => (
                                     <span key={idx}>
-                                        {word.toLowerCase() === "projects" || word.toLowerCase() === "journey" || word.toLowerCase() === "credentials" ? (
+                                        {word.toLowerCase() === "projects" || word.toLowerCase() === "education" || word.toLowerCase() === "credentials" ? (
                                             <span className="bg-gradient-to-r from-[#04cccc] to-[#15a3a3] bg-clip-text text-transparent">
                                                 {" "}{word}{" "}
                                             </span>
