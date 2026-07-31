@@ -42,10 +42,19 @@ function ContactSection() {
         });
 
         try {
-            const res = await sendContactEmail(data);
+            const payload = {
+                name: data.name.trim(),
+                email: data.email.trim(),
+                issue: data.issueCategory,
+                issueCategory: data.issueCategory,
+                courseName: data.issueCategory,
+                message: data.message.trim(),
+            };
 
-            const isSuccess =
-                res?.success || res?.data?.success || res?.status === 200;
+            const res = await sendContactEmail(payload);
+
+            // Axios or Direct Handler Check
+            const isSuccess = res?.success || res?.data?.success || res?.status === 200;
 
             if (isSuccess) {
                 Swal.fire({
@@ -56,9 +65,7 @@ function ContactSection() {
                 });
                 reset();
             } else {
-                throw new Error(
-                    res?.data?.message || res?.message || "Failed to send email"
-                );
+                throw new Error(res?.message || res?.data?.message || "Failed to send email");
             }
         } catch (error) {
             console.error("Error submitting form:", error);
