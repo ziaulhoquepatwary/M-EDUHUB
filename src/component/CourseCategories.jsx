@@ -132,7 +132,6 @@ const CourseCategories = () => {
                     {categories.map((cat) => (
                         <Link
                             key={cat.id}
-                            /* encodeURIComponent দিয়ে নাম ইউআরএল সেফ করে পাঠানো হচ্ছে */
                             href={`/courses?category=${encodeURIComponent(cat.title)}`}
                             className="snap-start shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] group"
                         >

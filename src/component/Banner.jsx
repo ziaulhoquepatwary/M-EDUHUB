@@ -14,7 +14,7 @@ const Banner = () => {
         {
             tag: "Project-Based Learning",
             icon: <BookOpen className="w-4 h-4 text-[#04cccc]" />,
-            title: "Build Real-World Projects & Master Skills",
+            title: "Digital Advisory & Executive Education.",
             desc: "Stop tutorial hell. Gain practical, hands-on experience by building modern full-stack web applications step-by-step with guided mentors.",
             image: "/banner1.jpg",
             link: "/courses"
