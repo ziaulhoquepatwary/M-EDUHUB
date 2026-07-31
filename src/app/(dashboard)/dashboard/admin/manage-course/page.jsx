@@ -14,32 +14,33 @@ export default function ManageCourse() {
     const [totalPages, setTotalPages] = useState(1);
     const [totalCourses, setTotalCourses] = useState(0);
 
+    const loadCourses = async (page, search) => {
+        setLoading(true);
+        try {
+            const response = await fetchAllCourse({
+                page: page,
+                limit: 10,
+                search: search,
+            });
+
+            if (response) {
+                setCourses(response.data || []);
+                setTotalPages(response.meta?.totalPages || 1);
+                setTotalCourses(response.meta?.total || 0);
+            }
+        } catch (error) {
+            console.error("Error fetching courses:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         let isMounted = true;
-        setLoading(true);
 
-        fetchAllCourse({
-            page: currentPage,
-            limit: 10,
-            search: searchQuery,
-        })
-            .then((data) => {
-                if (isMounted && data) {
-                    setCourses(data.courses || data.data || []);
-                    setTotalPages(data.totalPages || Math.ceil((data.total || 0) / 10) || 1);
-                    setTotalCourses(data.total || 0);
-                }
-            })
-            .catch((error) => {
-                if (isMounted) {
-                    console.error(error);
-                }
-            })
-            .finally(() => {
-                if (isMounted) {
-                    setLoading(false);
-                }
-            });
+        if (isMounted) {
+            loadCourses(currentPage, searchQuery);
+        }
 
         return () => {
             isMounted = false;
@@ -51,9 +52,7 @@ export default function ManageCourse() {
         const form = e.target;
         const inputVal = form.search.value;
 
-        if (currentPage !== 1) {
-            setCurrentPage(1);
-        }
+        setCurrentPage(1);
         setSearchQuery(inputVal);
     };
 
@@ -74,46 +73,31 @@ export default function ManageCourse() {
             customClass: {
                 popup: "border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl",
             }
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                deleteCourse(courseId)
-                    .then(() => {
-                        Swal.fire({
-                            title: "Deleted!",
-                            text: "The course has been deleted.",
-                            icon: "success",
-                            timer: 2000,
-                            showConfirmButton: false,
-                            background: isDark ? "#0f172a" : "#ffffff",
-                            color: isDark ? "#f8fafc" : "#0f172a",
-                        });
+                try {
+                    await deleteCourse(courseId);
 
-                        setLoading(true);
-                        return fetchAllCourse({
-                            page: currentPage,
-                            limit: 10,
-                            search: searchQuery
-                        });
-                    })
-                    .then((data) => {
-                        if (data) {
-                            setCourses(data.courses || data.data || []);
-                            setTotalPages(data.totalPages || Math.ceil((data.total || 0) / 10) || 1);
-                            setTotalCourses(data.total || 0);
-                        }
-                    })
-                    .catch((error) => {
-                        Swal.fire({
-                            title: "Error!",
-                            text: error.message || "Failed to delete course.",
-                            icon: "error",
-                            background: isDark ? "#0f172a" : "#ffffff",
-                            color: isDark ? "#f8fafc" : "#0f172a",
-                        });
-                    })
-                    .finally(() => {
-                        setLoading(false);
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "The course has been deleted.",
+                        icon: "success",
+                        timer: 2000,
+                        showConfirmButton: false,
+                        background: isDark ? "#0f172a" : "#ffffff",
+                        color: isDark ? "#f8fafc" : "#0f172a",
                     });
+
+                    loadCourses(currentPage, searchQuery);
+                } catch (error) {
+                    Swal.fire({
+                        title: "Error!",
+                        text: error.message || "Failed to delete course.",
+                        icon: "error",
+                        background: isDark ? "#0f172a" : "#ffffff",
+                        color: isDark ? "#f8fafc" : "#0f172a",
+                    });
+                }
             }
         });
     };
