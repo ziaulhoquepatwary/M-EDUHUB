@@ -1,17 +1,5 @@
 import Link from 'next/link';
-import {
-    CheckCircle2,
-    Clock,
-    Award,
-    BarChart,
-    Tag,
-    ShieldCheck,
-    ChevronRight,
-    Star,
-    Sparkles,
-    UserCheck,
-    ListChecks
-} from 'lucide-react';
+import { CheckCircle2, Clock, Award, BarChart, Tag, ShieldCheck, ChevronRight, Star, Sparkles, UserCheck, ListChecks } from 'lucide-react';
 import EnrollButton from './EnrollButton';
 import { fetchCourseDetails } from '@/lib/action/course';
 import BackButton from './BackButton';
@@ -228,7 +216,7 @@ export default async function CourseDetailsPage({ params }) {
                             </div>
 
                             {/* Client Interactive Button */}
-                            <EnrollButton price={course.price} courseId={course._id} />
+                            <EnrollButton courseData={course} />
 
                             {/* Key Highlights */}
                             <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">

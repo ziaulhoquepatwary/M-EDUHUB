@@ -1,11 +1,20 @@
 'use client';
 
 import { ShoppingCart } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-export default function EnrollButton({ price, courseId }) {
+export default function EnrollButton({ courseData }) {
+    const router = useRouter();
+
     const handleEnroll = () => {
-        // Handle enrollment logic (e.g., redirect to checkout or add to cart)
-        console.log(`Enrolling in course: ${courseId} for $${price}`);
+        const queryParams = new URLSearchParams({
+            id: courseData._id || '',
+            title: courseData.title || '',
+            price: courseData.price || '',
+            image: courseData.image || ''
+        }).toString();
+
+        router.push(`/checkout?${queryParams}`);
     };
 
     return (
