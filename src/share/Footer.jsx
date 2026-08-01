@@ -21,7 +21,7 @@ function Footer() {
 
     const whatsappUrl = "https://wa.me/13163617579";
     const telegramUrl = "https://t.me/Mtradersla_bot";
-    const emailAddress = "hello@mtraderslastllc.com";
+    const emailAddress = "hello@mtradershklimited.com";
 
     return (
         <footer className="w-full border-t pt-3 transition-colors duration-300 bg-white dark:bg-black border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400">
@@ -139,12 +139,12 @@ function Footer() {
                                 <div>
                                     <p className="font-medium text-slate-800 dark:text-slate-200">Phone / WhatsApp</p>
                                     <a
-                                        href={whatsappUrl}
+                                        href="tel:+44 7882740776"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-xs text-slate-500 hover:text-teal-500 transition-colors block"
                                     >
-                                        +1 (316) 361-7579
+                                        +44 7882740776
                                     </a>
                                 </div>
                             </li>
@@ -196,8 +196,8 @@ function Footer() {
                         {/* Parent Company Documentation Info Box */}
                         <div className="mt-5 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/80 text-xs text-slate-400 space-y-1">
                             <p className="font-semibold text-slate-700 dark:text-slate-300">A Concern of M Traders Last LLC</p>
-                            <p className="text-slate-500 dark:text-slate-500">Florida LLC · Doc# L26000290590</p>
-                            <p className="text-slate-500 dark:text-slate-500">7901 4th St N Suite 6573, St. Petersburg FL 33702</p>
+                            <p className="text-slate-500 dark:text-slate-500">1317 85 DUNSTALL HILL</p>
+                            <p className="text-slate-500 dark:text-slate-500">WOLVERHAMPTON WV6 0SR</p>
                         </div>
                     </div>
 

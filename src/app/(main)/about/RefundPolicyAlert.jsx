@@ -102,10 +102,10 @@ export default function RefundPolicyAlert() {
                                 Registered Address
                             </div>
                             <p className="text-sm font-bold text-slate-900 dark:text-white">
-                                7901 4th St N Ste 300
+                                1317 85 DUNSTALL HILL
                             </p>
                             <p className="text-xs text-slate-500 dark:text-neutral-400">
-                                St. Petersburg FL 33702, USA
+                                WOLVERHAMPTON WV6 0SR
                             </p>
                         </div>
 
@@ -119,7 +119,7 @@ export default function RefundPolicyAlert() {
                             </p>
                             <div className="flex items-center gap-1 text-xs text-[#04cccc]">
                                 <Globe className="w-3 h-3" />
-                                mtraderslastllc.com
+                                hello@mtradershklimited.com
                             </div>
                         </div>
 

@@ -143,7 +143,7 @@ function ContactSection() {
 
                             {/* Phone */}
                             <a
-                                href="tel:+13163617579"
+                                href="tel:+44 7882740776"
                                 className="flex items-center space-x-3.5 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-[#04cccc] dark:hover:border-[#04cccc] transition-colors group shadow-sm"
                             >
                                 <div className="p-2.5 rounded-md bg-cyan-50 dark:bg-cyan-950/50 text-[#04cccc]">
@@ -151,13 +151,13 @@ function ContactSection() {
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">Call Us Direct</p>
-                                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">+1 (316) 361-7579</p>
+                                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">+44 7882740776</p>
                                 </div>
                             </a>
 
                             {/* Email */}
                             <a
-                                href="mailto:hello@mtraderslastllc.com"
+                                href="mailto:hello@mtradershklimited.com"
                                 className="flex items-center space-x-3.5 p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-[#04cccc] dark:hover:border-[#04cccc] transition-colors group shadow-sm"
                             >
                                 <div className="p-2.5 rounded-md bg-cyan-50 dark:bg-cyan-950/50 text-[#04cccc]">
@@ -165,7 +165,7 @@ function ContactSection() {
                                 </div>
                                 <div>
                                     <p className="text-xs text-slate-500 dark:text-slate-400">Email Us</p>
-                                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">hello@mtraderslastllc.com</p>
+                                    <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">hello@mtradershklimited.com</p>
                                 </div>
                             </a>
 
@@ -190,7 +190,9 @@ function ContactSection() {
                         <div className="p-5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3">
                             <div className="flex items-center space-x-3 text-slate-600 dark:text-slate-400">
                                 <Building2 className="w-4 h-4 text-[#04cccc]" />
-                                <span className="text-xs sm:text-sm">St. Petersburg, FL 33702, USA</span>
+                                <span className="text-xs sm:text-sm">1317 85 DUNSTALL HILL || 
+                                    WOLVERHAMPTON WV6 0SR
+                                </span>
                             </div>
                             <div className="flex items-center space-x-3 text-slate-600 dark:text-slate-400">
                                 <Clock className="w-4 h-4 text-[#04cccc]" />
@@ -198,7 +200,7 @@ function ContactSection() {
                             </div>
                             <div className="flex items-center space-x-3 text-slate-600 dark:text-slate-400">
                                 <Globe className="w-4 h-4 text-[#04cccc]" />
-                                <span className="text-xs sm:text-sm">mtraderslastllc.com</span>
+                                <span className="text-xs sm:text-sm">https://www.mtradershklimited.com</span>
                             </div>
                         </div>
                     </div>
