@@ -92,7 +92,7 @@ export default function RefundPolicy() {
                             Once a refund request is officially approved by EduHub management, the user's course access, lifetime dashboard privileges, and eligibility for weekly 1-on-1 mentorship sessions for that course will be permanently revoked immediately.
                         </p>
                         <p>
-                            Approved refunds will be processed back to the original payment method utilized during the initial transaction (e.g., credit card, debit card, or supported digital gateway). Depending on your bank or payment service provider, please allow 7 to 14 business days for the refunded amount to reflect in your financial account statement.
+                            Approved refunds will be processed back to the original payment method utilized during the initial transaction (e.g., credit card, debit card, or supported digital gateway) within <strong>1 business day (24 hours)</strong> after approval.
                         </p>
                     </section>
 
