@@ -28,16 +28,17 @@ export async function POST(req) {
         const body = await req.json();
         const { amount, currency = 'USD', title, courseId, customerName, customerEmail } = body;
 
-        const requestPath = '/ams/api/v1/payments/pay';
+        const requestPath = '/ams/sandbox/api/v1/payments/pay';
+
         const clientId = process.env.ANTOM_CLIENT_ID;
         const requestTime = new Date().toISOString();
 
         const paymentRequestId = `ORDER_${Date.now()}`;
         const amountString = String(Math.round(Number(amount) * 100));
 
-        const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.mtradershklimited.com');
+        const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.mtradershklimited.com').replace(/\/$/, '');
 
-        const webhookUrl = 'https://www.mtradershklimited.com/api/webhook/antom';
+        const webhookUrl = `${appUrl}/api/webhook/antom?orderId=${paymentRequestId}&courseId=${courseId}&email=${encodeURIComponent(customerEmail || '')}&name=${encodeURIComponent(customerName || '')}`;
 
         const payload = {
             productCode: "CASHIER_PAYMENT",
