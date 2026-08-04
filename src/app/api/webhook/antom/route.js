@@ -4,29 +4,31 @@ import axios from 'axios';
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { searchParams } = new URL(req.url);
 
-        const orderId = searchParams.get('orderId');
-        const courseId = searchParams.get('courseId');
-        const email = searchParams.get('email');
-        const name = searchParams.get('name');
-
+        const orderId = body.paymentRequestId;
         const paymentStatus = body.paymentStatus || body.result?.resultStatus;
         const notifyType = body.notifyType;
         const paymentId = body.paymentId || body.transactionId || 'UNKNOWN_PROOF_ID';
 
-        console.log(' ANTOM WEBHOOK RECEIVED ');
-        console.log(JSON.stringify(body, null, 2));
-        console.log(`Order ID: ${orderId}`);
-        console.log(`Course ID: ${courseId}`);
-        console.log(`User Email: ${email}`);
-        console.log(`Proof ID: ${paymentId}`);
+        let courseId = null, email = null, name = null;
+        if (body.passThroughInfo) {
+            try {
+                const parsedInfo = JSON.parse(body.passThroughInfo);
+                courseId = parsedInfo.courseId;
+                email = parsedInfo.customerEmail;
+                name = parsedInfo.customerName;
+            } catch (e) {
+                console.error("Failed to parse passThroughInfo");
+            }
+        }
+
+        console.log('--- ANTOM WEBHOOK RECEIVED ---');
+        console.log(`Order ID: ${orderId}, Course ID: ${courseId}, User Email: ${email}`);
 
         const isPaymentSuccessful = paymentStatus === 'SUCCESS' || paymentStatus === 'S' || notifyType === 'CAPTURE_RESULT';
 
         if (isPaymentSuccessful) {
             const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://edu-hub-server-4gwz.onrender.com';
-
             try {
                 const payload = {
                     orderId,
@@ -47,7 +49,6 @@ export async function POST(req) {
             }
         }
 
-        // Acknowledge receipt to Antom to prevent duplicate webhook triggers
         return NextResponse.json({ result: 'SUCCESS' }, { status: 200 });
 
     } catch (error) {

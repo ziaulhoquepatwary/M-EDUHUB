@@ -29,16 +29,14 @@ export async function POST(req) {
         const { amount, currency = 'USD', title, courseId, customerName, customerEmail } = body;
 
         const requestPath = '/ams/sandbox/api/v1/payments/pay';
-
         const clientId = process.env.ANTOM_CLIENT_ID;
         const requestTime = new Date().toISOString();
 
         const paymentRequestId = `ORDER_${Date.now()}`;
         const amountString = String(Math.round(Number(amount) * 100));
-
         const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.mtradershklimited.com').replace(/\/$/, '');
 
-        const webhookUrl = `${appUrl}/api/webhook/antom?orderId=${paymentRequestId}&courseId=${courseId}&email=${encodeURIComponent(customerEmail || '')}&name=${encodeURIComponent(customerName || '')}`;
+        const webhookUrl = `${appUrl}/api/webhook/antom`;
 
         const payload = {
             productCode: "CASHIER_PAYMENT",
@@ -70,23 +68,18 @@ export async function POST(req) {
                 terminalType: "WEB"
             },
             paymentRedirectUrl: `${appUrl}/payment-success`,
-            paymentNotifyUrl: webhookUrl
+            paymentNotifyUrl: webhookUrl,
+            passThroughInfo: JSON.stringify({ courseId, customerEmail, customerName })
         };
 
         const jsonBody = JSON.stringify(payload);
 
         const signature = generateSignature(
-            'POST',
-            requestPath,
-            clientId,
-            requestTime,
-            jsonBody,
-            process.env.ANTOM_PRIVATE_KEY
+            'POST', requestPath, clientId, requestTime, jsonBody, process.env.ANTOM_PRIVATE_KEY
         );
 
         const encodedSignature = encodeURIComponent(signature);
         const signatureHeader = `algorithm=RSA256,keyVersion=1,signature=${encodedSignature}`;
-
         const baseUrl = process.env.ANTOM_BASE_URL.replace(/\/$/, '');
 
         const antomResponse = await fetch(`${baseUrl}${requestPath}`, {
@@ -101,41 +94,20 @@ export async function POST(req) {
         });
 
         const rawText = await antomResponse.text();
-        console.log('Antom Raw Status:', antomResponse.status);
-        console.log('Antom Raw Response Body:', rawText);
-
         let result = {};
         if (rawText) {
-            try {
-                result = JSON.parse(rawText);
-            } catch (e) {
-                console.error('Failed to parse JSON from Antom:', e);
-            }
+            try { result = JSON.parse(rawText); } catch (e) { }
         }
 
         const checkoutUrl = result.redirectUrl || result.normalUrl || result.paymentUrl || result.actionForm;
 
         if (checkoutUrl) {
-            return NextResponse.json({
-                success: true,
-                checkoutUrl: checkoutUrl
-            });
+            return NextResponse.json({ success: true, checkoutUrl: checkoutUrl });
         }
 
-        return NextResponse.json(
-            {
-                success: false,
-                message: result.result?.resultMessage || 'Payment session creation failed',
-                details: result
-            },
-            { status: 400 }
-        );
+        return NextResponse.json({ success: false, message: 'Payment session creation failed' }, { status: 400 });
 
     } catch (error) {
-        console.error('Antom Payment API Error:', error);
-        return NextResponse.json(
-            { success: false, message: error.message || 'Internal Server Error' },
-            { status: 500 }
-        );
+        return NextResponse.json({ success: false, message: error.message }, { status: 500 });
     }
 }
