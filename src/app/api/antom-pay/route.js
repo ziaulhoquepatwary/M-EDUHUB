@@ -26,7 +26,7 @@ function generateSignature(httpMethod, requestPath, clientId, requestTime, reqBo
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { amount, currency = 'USD', title, courseId } = body;
+        const { amount, currency = 'USD', title, courseId, customerName, customerEmail } = body;
 
         const requestPath = '/ams/api/v1/payments/pay';
         const clientId = process.env.ANTOM_CLIENT_ID;
@@ -35,8 +35,9 @@ export async function POST(req) {
         const paymentRequestId = `ORDER_${Date.now()}`;
         const amountString = String(Math.round(Number(amount) * 100));
 
-        // Dynamic Base URL from .env
-        const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://localhost:3000/payment-success');
+        const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/$/, '');
+
+        const webhookUrl = `${appUrl}/api/webhook/antom?orderId=${paymentRequestId}&courseId=${courseId}&email=${encodeURIComponent(customerEmail || '')}&name=${encodeURIComponent(customerName || '')}`;
 
         const payload = {
             productCode: "CASHIER_PAYMENT",
@@ -56,14 +57,19 @@ export async function POST(req) {
             paymentMethod: {
                 paymentMethodType: "CARD"
             },
+            buyer: {
+                referenceBuyerId: customerEmail || `GUEST_${Date.now()}`,
+                ...(customerName && { buyerName: { fullName: customerName } }),
+                ...(customerEmail && { buyerEmail: customerEmail })
+            },
             settlementStrategy: {
                 settlementCurrency: String(currency)
             },
             env: {
                 terminalType: "WEB"
             },
-            // Dynamic Redirect URL from environment variable
-            paymentRedirectUrl: `${appUrl}/payment-success`
+            paymentRedirectUrl: `${appUrl}/payment-success`,
+            paymentNotifyUrl: webhookUrl
         };
 
         const jsonBody = JSON.stringify(payload);

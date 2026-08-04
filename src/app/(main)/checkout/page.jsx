@@ -2,7 +2,8 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useState, Suspense } from 'react';
-import { CreditCard, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { CreditCard, CheckCircle2, ShieldCheck, User, Mail } from 'lucide-react';
+import Image from 'next/image';
 
 function CheckoutContent() {
     const searchParams = useSearchParams();
@@ -13,6 +14,8 @@ function CheckoutContent() {
     const courseId = searchParams.get('id') || '';
 
     const [customPrice, setCustomPrice] = useState(initialPrice);
+    const [customerName, setCustomerName] = useState('');
+    const [customerEmail, setCustomerEmail] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleProceedToPayment = async () => {
@@ -34,6 +37,8 @@ function CheckoutContent() {
                     title: initialTitle,
                     amount: Number(customPrice),
                     currency: 'USD',
+                    customerName,
+                    customerEmail
                 }),
             });
 
@@ -101,55 +106,82 @@ function CheckoutContent() {
                             Payment Summary
                         </h2>
 
-                        <div className="mb-6">
-                            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-2">
-                                Payable Amount (USD)
+                        {/* Customer Info (Optional) */}
+                        <div className="space-y-4 mb-6 bg-white dark:bg-black p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+                            <div>
+                                <label className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">
+                                    <User className="w-3.5 h-3.5" /> Full Name
+                                </label>
+                                <input
+                                    type="text"
+                                    value={customerName}
+                                    onChange={(e) => setCustomerName(e.target.value)}
+                                    placeholder="e.g. John Doe"
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:border-[#04cccc] dark:focus:border-[#04cccc] transition-colors"
+                                />
+                            </div>
+                            <div>
+                                <label className="flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2">
+                                    <Mail className="w-3.5 h-3.5" /> Email Address
+                                </label>
+                                <input
+                                    type="email"
+                                    value={customerEmail}
+                                    onChange={(e) => setCustomerEmail(e.target.value)}
+                                    placeholder="you@example.com"
+                                    className="w-full px-4 py-2.5 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-lg text-sm text-slate-900 dark:text-white focus:outline-none focus:border-[#04cccc] dark:focus:border-[#04cccc] transition-colors"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Stealthy Amount Input */}
+                        <div className="mb-6 flex flex-col items-center justify-center py-4">
+                            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1">
+                                Total Payable (USD)
                             </label>
-                            <div className="relative">
-                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-slate-500 dark:text-slate-400">
-                                    $
-                                </span>
+                            <div className="relative flex items-baseline justify-center group">
+                                <span className="text-2xl font-bold text-slate-400 mr-1">$</span>
                                 <input
                                     type="number"
                                     min="1"
                                     value={customPrice}
                                     onChange={(e) => setCustomPrice(e.target.value)}
-                                    className="w-full pl-9 pr-4 py-3.5 bg-white dark:bg-black border border-slate-300 dark:border-slate-700 rounded-xl text-lg font-bold text-slate-900 dark:text-white focus:outline-none focus:border-[#04cccc] dark:focus:border-[#04cccc] transition-colors"
-                                    placeholder="Enter custom price"
+                                    title="Click to edit amount"
+                                    className="w-32 bg-transparent text-center border-b border-transparent group-hover:border-slate-300 dark:group-hover:border-slate-700 focus:border-[#04cccc] dark:focus:border-[#04cccc] text-4xl font-extrabold text-slate-900 dark:text-white focus:outline-none transition-all"
+                                    placeholder="0"
                                 />
-                            </div>
-                            <p className="text-xs text-slate-500 dark:text-slate-500 mt-2">
-                                You can adjust the payable amount if required.
-                            </p>
-                        </div>
-
-                        <div className="bg-white dark:bg-black p-4 rounded-xl border border-slate-200 dark:border-slate-800 mb-6 space-y-2">
-                            <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
-                                <span>Subtotal</span>
-                                <span>${customPrice || 0}</span>
-                            </div>
-                            <div className="flex justify-between text-sm text-slate-600 dark:text-slate-400">
-                                <span>Gateway Fee</span>
-                                <span className="text-emerald-500 dark:text-emerald-400">Free</span>
-                            </div>
-                            <div className="border-t border-slate-200 dark:border-slate-800 pt-2 flex justify-between text-base font-bold text-slate-900 dark:text-white">
-                                <span>Total Payable</span>
-                                <span className="text-[#04cccc]">${customPrice || 0}</span>
                             </div>
                         </div>
                     </div>
 
-                    <button
-                        onClick={handleProceedToPayment}
-                        disabled={isLoading}
-                        className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#04cccc] to-[#15a3a3] hover:opacity-90 text-white font-bold text-base transition-all shadow-lg shadow-[#04cccc]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isLoading ? (
-                            <span>Redirecting to Antom...</span>
-                        ) : (
-                            <span>Proceed to Payment</span>
-                        )}
-                    </button>
+                    <div className="mt-auto">
+                        <button
+                            onClick={handleProceedToPayment}
+                            disabled={isLoading}
+                            className="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#04cccc] to-[#15a3a3] hover:opacity-90 text-white font-bold text-base transition-all shadow-lg shadow-[#04cccc]/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isLoading ? (
+                                <span>Redirecting...</span>
+                            ) : (
+                                <div className="flex items-center justify-center gap-2">
+                                    <span>Proceed to Payment</span>
+                                    <Image
+                                        src="https://cdn.marmot-cloud.com/storage/intl_website/2026/03/23/EgIXCDK/logo_antom.svg"
+                                        alt="Antom"
+                                        width={30}
+                                        height={30}
+                                        className="h-5 w-auto object-contain"
+                                    />
+                                </div>
+                            )}
+                        </button>
+
+                        {/* Powered By Antom Branding */}
+                        <div className="mt-4 flex items-center justify-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
+                            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                            <span>Secured and powered by <strong className="text-slate-700 dark:text-slate-300">Antom</strong></span>
+                        </div>
+                    </div>
                 </div>
 
             </div>
