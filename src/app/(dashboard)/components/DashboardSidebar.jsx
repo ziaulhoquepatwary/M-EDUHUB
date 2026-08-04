@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, ChevronRight, X, FolderKanban, FilePlusCorner, UserPen, LucideFilePlusCorner, } from "lucide-react";
+import { LayoutDashboard, ChevronRight, X, FolderKanban, FilePlusCorner, UserPen, LucideFilePlusCorner, Video, } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 const MENU_CONFIG = {
@@ -13,8 +13,13 @@ const MENU_CONFIG = {
         { name: "Add Blog", href: "/dashboard/admin/add-blog", icon: LucideFilePlusCorner },
         { name: "Profile", href: "/my-profile", icon: UserPen },
     ],
-};
 
+    user: [
+        { name: "Dashboard", href: "/dashboard/user", icon: LayoutDashboard },
+        { name: "My Courses", href: "/dashboard/user/courses", icon: Video },
+        { name: "Profile", href: "/my-profile", icon: UserPen },
+    ],
+};
 
 function DashboardSidebar({ isOpen, closeSidebar }) {
     const pathname = usePathname();

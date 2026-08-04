@@ -10,7 +10,7 @@ function Dashboard({ children }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
     return (
-        <ProtectedRoute roles={['admin']} fallbackUrl="/login">
+        <ProtectedRoute roles={['admin', "user"]} fallbackUrl="/login">
             <div className="flex min-h-screen bg-white dark:bg-black text-slate-900 dark:text-slate-100 transition-colors duration-300">
                 <div
                     className={`fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 lg:relative lg:translate-x-0 ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
