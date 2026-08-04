@@ -49,7 +49,11 @@ export async function POST(req) {
             }
         }
 
-        return NextResponse.json({ result: 'SUCCESS' }, { status: 200 });
+        return NextResponse.json({
+            result: {
+                resultStatus: "S"
+            }
+        }, { status: 200 });
 
     } catch (error) {
         console.error('Webhook Processing Error:', error);
