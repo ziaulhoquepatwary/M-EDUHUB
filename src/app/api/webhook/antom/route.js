@@ -16,6 +16,7 @@ export async function POST(req) {
         const paymentId = body.paymentId || body.transactionId || 'UNKNOWN_PROOF_ID';
 
         console.log(' ANTOM WEBHOOK RECEIVED ');
+        console.log(JSON.stringify(body, null, 2));
         console.log(`Order ID: ${orderId}`);
         console.log(`Course ID: ${courseId}`);
         console.log(`User Email: ${email}`);
