@@ -37,7 +37,7 @@ export async function POST(req) {
 
         const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.mtradershklimited.com');
 
-        const webhookUrl = `${appUrl}/api/webhook/antom?orderId=${paymentRequestId}&courseId=${courseId}&email=${encodeURIComponent(customerEmail || '')}&name=${encodeURIComponent(customerName || '')}`;
+        const webhookUrl = 'https://www.mtradershklimited.com/api/webhook/antom';
 
         const payload = {
             productCode: "CASHIER_PAYMENT",
