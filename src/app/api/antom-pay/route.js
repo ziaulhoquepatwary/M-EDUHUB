@@ -35,7 +35,7 @@ export async function POST(req) {
         const paymentRequestId = `ORDER_${Date.now()}`;
         const amountString = String(Math.round(Number(amount) * 100));
 
-        const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000').replace(/\/$/, '');
+        const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.mtradershklimited.com');
 
         const webhookUrl = `${appUrl}/api/webhook/antom?orderId=${paymentRequestId}&courseId=${courseId}&email=${encodeURIComponent(customerEmail || '')}&name=${encodeURIComponent(customerName || '')}`;
 
