@@ -14,27 +14,25 @@ export async function POST(req) {
         console.log(`Processing Order ID: ${orderId} | Status: ${paymentStatus}`);
 
         const isPaymentSuccessful = paymentStatus === 'SUCCESS' || paymentStatus === 'S' || notifyType === 'CAPTURE_RESULT';
+        const finalStatus = isPaymentSuccessful ? 'SUCCESS' : 'FAILED';
 
-        if (isPaymentSuccessful) {
-            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://edu-hub-server-4gwz.onrender.com';
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://edu-hub-server-4gwz.onrender.com';
 
-            try {
-                const payload = {
-                    orderId: orderId,
-                    proofId: paymentId,
-                    gateway: 'Antom'
-                };
+        try {
+            const payload = {
+                orderId: orderId,
+                proofId: paymentId,
+                gateway: 'Antom',
+                status: finalStatus
+            };
 
-                const response = await axios.post(`${backendUrl}/api/orders/confirm-antom-payment`, payload);
+            const response = await axios.post(`${backendUrl}/api/orders/confirm-antom-payment`, payload);
 
-                if (response.status === 200 || response.status === 201) {
-                    console.log(`Successfully updated order status to PAID for: ${orderId}`);
-                }
-            } catch (backendError) {
-                console.error('Error updating order status in backend:', backendError.response?.data || backendError.message);
+            if (response.status === 200 || response.status === 201) {
+                console.log(`Successfully updated order status to ${finalStatus} for: ${orderId}`);
             }
-        } else {
-            console.log(`Payment not successful. Current status: ${paymentStatus} for order: ${orderId}`);
+        } catch (backendError) {
+            console.error('Error updating order status in backend:', backendError.response?.data || backendError.message);
         }
 
         return NextResponse.json({
