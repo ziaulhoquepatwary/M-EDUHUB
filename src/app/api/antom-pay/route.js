@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import axios from 'axios';
 
 function formatPrivateKey(pem) {
     if (!pem) return '';
@@ -28,14 +29,27 @@ export async function POST(req) {
         const body = await req.json();
         const { amount, currency = 'USD', title, courseId, customerName, customerEmail } = body;
 
-        const requestPath = '/ams/sandbox/api/v1/payments/pay';
-        const clientId = process.env.ANTOM_CLIENT_ID;
-        const requestTime = new Date().toISOString();
-
         const paymentRequestId = `ORDER_${Date.now()}`;
         const amountString = String(Math.round(Number(amount) * 100));
         const appUrl = (process.env.NEXT_PUBLIC_APP_URL || 'https://www.mtradershklimited.com').replace(/\/$/, '');
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://edu-hub-server-4gwz.onrender.com';
 
+        try {
+            await axios.post(`${backendUrl}/api/orders/create-pending`, {
+                orderId: paymentRequestId,
+                courseId: courseId,
+                userEmail: customerEmail,
+                userName: customerName,
+                gateway: 'Antom'
+            });
+        } catch (backendError) {
+            console.error('Failed to initialize pending order:', backendError.message);
+            return NextResponse.json({ success: false, message: 'Failed to initialize order in database' }, { status: 500 });
+        }
+
+        const requestPath = '/ams/sandbox/api/v1/payments/pay';
+        const clientId = process.env.ANTOM_CLIENT_ID;
+        const requestTime = new Date().toISOString();
         const webhookUrl = `${appUrl}/api/webhook/antom`;
 
         const payload = {
@@ -95,8 +109,13 @@ export async function POST(req) {
 
         const rawText = await antomResponse.text();
         let result = {};
+
         if (rawText) {
-            try { result = JSON.parse(rawText); } catch (e) { }
+            try {
+                result = JSON.parse(rawText);
+            } catch (parseError) {
+                console.error('Error parsing Antom response:', parseError);
+            }
         }
 
         const checkoutUrl = result.redirectUrl || result.normalUrl || result.paymentUrl || result.actionForm;
@@ -108,6 +127,7 @@ export async function POST(req) {
         return NextResponse.json({ success: false, message: 'Payment session creation failed' }, { status: 400 });
 
     } catch (error) {
+        console.error('Payment initialization error:', error);
         return NextResponse.json({ success: false, message: error.message }, { status: 500 });
     }
 }
