@@ -68,8 +68,26 @@ export async function POST(req) {
                     value: amountString
                 }
             },
-            paymentMethod: {
-                paymentMethodType: "CARD"
+            availablePaymentMethod: {
+                paymentMethodTypeList: [
+                    {
+                        paymentMethodType: "CARD"
+                    },
+                    {
+                        paymentMethodType: "GOOGLEPAY",
+                        expressCheckout: false
+                    },
+                    {
+                        paymentMethodType: "APPLEPAY",
+                        expressCheckout: false
+                    },
+                    {
+                        paymentMethodType: "ALIPAY"
+                    },
+                    {
+                        paymentMethodType: "ALIPAY_HK"
+                    }
+                ]
             },
             buyer: {
                 referenceBuyerId: customerEmail || `GUEST_${Date.now()}`,
