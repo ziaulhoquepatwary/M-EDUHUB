@@ -84,9 +84,6 @@ export async function POST(req) {
                     {
                         paymentMethodType: "ALIPAY"
                     },
-                    {
-                        paymentMethodType: "ALIPAY_HK"
-                    }
                 ]
             },
             buyer: {
