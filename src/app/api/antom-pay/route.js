@@ -143,7 +143,13 @@ export async function POST(req) {
             return NextResponse.json({ success: true, checkoutUrl: checkoutUrl });
         }
 
-        return NextResponse.json({ success: false, message: 'Payment session creation failed' }, { status: 400 });
+        console.error("ANTOM API ERROR:", JSON.stringify(result, null, 2));
+
+        return NextResponse.json({
+            success: false,
+            message: result?.result?.resultMessage || 'Payment session creation failed',
+            details: result
+        }, { status: 400 });
 
     } catch (error) {
         console.error('Payment initialization error:', error);
