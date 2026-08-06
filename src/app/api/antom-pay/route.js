@@ -68,6 +68,9 @@ export async function POST(req) {
                     value: amountString
                 }
             },
+            paymentMethod: {
+                paymentMethodType: "CARD"
+            },
             availablePaymentMethod: {
                 paymentMethodTypeList: [
                     {
@@ -83,7 +86,7 @@ export async function POST(req) {
                     },
                     {
                         paymentMethodType: "ALIPAY"
-                    },
+                    }
                 ]
             },
             buyer: {
