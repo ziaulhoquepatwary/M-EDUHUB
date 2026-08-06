@@ -47,13 +47,14 @@ export async function POST(req) {
             return NextResponse.json({ success: false, message: 'Failed to initialize order in database' }, { status: 500 });
         }
 
-        const requestPath = process.env.ANTOM_API_PATH || '/ams/api/v1/payments/pay';
+        const requestPath = process.env.ANTOM_API_PATH || '/ams/api/v1/payments/createPaymentSession';
         const clientId = process.env.ANTOM_CLIENT_ID;
         const requestTime = new Date().toISOString();
         const webhookUrl = `${appUrl}/api/webhook/antom`;
 
         const payload = {
             productCode: "CASHIER_PAYMENT",
+            productScene: "CHECKOUT_PAYMENT",
             paymentRequestId: paymentRequestId,
             is3DSAuthentication: true,
             paymentAmount: {
@@ -67,9 +68,6 @@ export async function POST(req) {
                     currency: String(currency),
                     value: amountString
                 }
-            },
-            paymentMethod: {
-                paymentMethodType: "CARD"
             },
             availablePaymentMethod: {
                 paymentMethodTypeList: [
@@ -137,7 +135,7 @@ export async function POST(req) {
             }
         }
 
-        const checkoutUrl = result.redirectUrl || result.normalUrl || result.paymentUrl || result.actionForm;
+        const checkoutUrl = result.paymentUrl || result.redirectUrl || result.normalUrl || result.actionForm || result.paymentSessionData?.redirectUrl;
 
         if (checkoutUrl) {
             return NextResponse.json({ success: true, checkoutUrl: checkoutUrl });
