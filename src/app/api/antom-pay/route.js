@@ -47,7 +47,7 @@ export async function POST(req) {
             return NextResponse.json({ success: false, message: 'Failed to initialize order in database' }, { status: 500 });
         }
 
-        const requestPath = process.env.ANTOM_API_PATH || '/ams/sandbox/api/v1/payments/pay';
+        const requestPath = process.env.ANTOM_API_PATH || '/ams/api/v1/payments/pay';
         const clientId = process.env.ANTOM_CLIENT_ID;
         const requestTime = new Date().toISOString();
         const webhookUrl = `${appUrl}/api/webhook/antom`;
