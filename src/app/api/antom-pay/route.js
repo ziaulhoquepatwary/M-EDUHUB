@@ -98,7 +98,7 @@ export async function POST(req) {
             env: {
                 terminalType: "WEB"
             },
-            paymentRedirectUrl: `${appUrl}/payment-success`,
+            paymentRedirectUrl: `${appUrl}/api/payment-return`,
             paymentNotifyUrl: webhookUrl,
             passThroughInfo: JSON.stringify({ courseId, customerEmail, customerName })
         };
