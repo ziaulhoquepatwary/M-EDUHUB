@@ -25,7 +25,7 @@ const Banner = () => {
             title: "Elevate Your Software Engineering Journey",
             desc: "Master in-demand tech stacks like Next.js, React, and Node.js. Prepare for job-ready technical interviews and showcase an impressive portfolio.",
             image: "/banner2.jpg",
-            link: "/learning-paths"
+            link: "/courses"
         },
         {
             tag: "Interactive Platform",
@@ -33,7 +33,7 @@ const Banner = () => {
             title: "Track Progress & Earn Industry Recognized Credentials",
             desc: "Join a community of thousands of active learners. Solve interactive coding challenges, get peer feedback, and showcase your achievements.",
             image: "/banner3.jpg",
-            link: "/community"
+            link: "/courses"
         }
     ];
 
