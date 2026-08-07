@@ -40,7 +40,8 @@ export async function POST(req) {
                 courseId: courseId,
                 userEmail: customerEmail,
                 userName: customerName,
-                gateway: 'Antom'
+                gateway: 'Antom',
+                amount: Number(amount)
             });
         } catch (backendError) {
             console.error('Failed to initialize pending order:', backendError.message);
