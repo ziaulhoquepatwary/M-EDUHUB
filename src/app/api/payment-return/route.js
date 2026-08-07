@@ -5,11 +5,10 @@ export async function GET(req) {
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.mtradershklimited.com';
 
     const resultCode = searchParams.get('resultCode');
-    const paymentRequestId = searchParams.get('paymentRequestId') || '';
 
-    if (resultCode === 'SUCCESS') {
-        return NextResponse.redirect(`${appUrl}/payment-success?orderId=${paymentRequestId}`);
+    if (resultCode === 'SUCCESS' || 'S') {
+        return NextResponse.redirect(`${appUrl}/payment-success`);
     }
 
-    return NextResponse.redirect(`${appUrl}/payment-failed?orderId=${paymentRequestId}`);
+    return NextResponse.redirect(`${appUrl}/payment-failed`);
 }
